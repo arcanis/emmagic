@@ -1,4 +1,4 @@
-# emmagic
+# [![](/logo.png?raw=true)](https://github.com/manaflair/emmagic)
 
 > Easily transport your data structures between C++ and Javascript
 
@@ -7,6 +7,8 @@
 [Check out our other OSS projects!](https://manaflair.github.io)
 
 ## Installation
+
+**Requirements:** Because it uses a lot of metaprogramming tricks, Emmagic requires a C++17 compiler. You'll need to compile your code with `-std=c++17`, or possibly `-std=c++1z`.
 
 ```
 $> npm install --save-dev @manaflair/emmagic
@@ -25,7 +27,7 @@ Then add the following into your `node.gyp`:
 ## Features
 
   - Automatic bindings for most of the STL data structures
-  - Automatic coercion strings ⟷ numbers
+  - Automatic (and optional) coercion strings ⟷ numbers
   - In/out support for ES2015 data structures (Maps, Sets)
   - In/out support for browsers typed arrays
   - Can support any user-defined type
@@ -68,6 +70,19 @@ struct MyType
 ```
 
 You can use any type supported by emmagic instead of `std::vector<int>` - even other custom class instances! They will automatically get unwrapped and converted through the regular conversion pipeline.
+
+### Flags
+
+The library supports adding flags to the conversion pipeline. The next sections will describe those flags in detail, but the general concept is that each function that you use inside `EMSCRIPTEN_BINDINGS` usually accepts an extra optional template parameter:
+
+```c++
+EMSCRIPTEN_BINDINGS(myModule)
+{
+    using namespace emmagic;
+
+    function<..., EMMAGIC_SOME_FLAG_A | EMMAGIC_SOME_FLAG_B>("...");
+}
+```
 
 ### Typed arrays
 
