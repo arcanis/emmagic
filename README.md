@@ -10,19 +10,7 @@
 
 **Requirements:** Because it uses a lot of metaprogramming tricks, Emmagic requires a C++17 compiler. You'll need to compile your code with `-std=c++17`, or possibly `-std=c++1z`.
 
-```
-$> npm install --save-dev @manaflair/emmagic
-```
-
-Then add the following into your `node.gyp`:
-
-```json
-{
-    "include_dirs": [
-        "./node_modules/emmagic/includes"
-    ]
-}
-```
+> The installation process has not been finalized. This library is available on npm as `@manaflair/emmagic`, but it might change in the future.
 
 ## Features
 
