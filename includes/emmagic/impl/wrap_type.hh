@@ -81,6 +81,11 @@ struct emmagic_wrap_type_arithmetic;
 template <typename LocalType>
 struct emmagic_wrap_type_arithmetic<LocalType, false> : public emmagic_wrap_type_simple<LocalType, LocalType> {
 
+    static LocalType receive(LocalType data)
+    {
+        return data;
+    }
+
     static LocalType receive(emscripten::val val)
     {
         return val.as<LocalType>();
@@ -90,6 +95,11 @@ struct emmagic_wrap_type_arithmetic<LocalType, false> : public emmagic_wrap_type
 
 template <typename LocalType>
 struct emmagic_wrap_type_arithmetic<LocalType, true> : public emmagic_wrap_type_simple<LocalType, LocalType> {
+
+    static LocalType receive(LocalType data)
+    {
+        return data;
+    }
 
     static LocalType receive(std::string const& string)
     {
