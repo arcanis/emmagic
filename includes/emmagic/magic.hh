@@ -31,7 +31,7 @@ namespace emmagic {
     template <auto Fn, int Flags = 0>
     void function(char const * name)
     {
-        return emscripten::function(name, emmagic_wrap_free_fn<decltype(Fn), Fn, Flags>::wrap);
+        return emscripten::function(name, emmagic_wrap_free_fn<decltype(Fn), Fn, Flags>::wrap, emscripten::allow_raw_pointers());
     }
 
 }

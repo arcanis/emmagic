@@ -14,7 +14,7 @@ struct emmagic_wrap_type_array_base : public emmagic_wrap_type_base<std::array<V
     {
         std::array<ValueType, Size> array;
 
-        for (auto t = 0u; t < Size; ++t)
+        for (auto t = 0ul; t < Size; ++t)
             array[t] = emmagic_receive<ValueType, Flags>(value[t]);
 
         return array;
@@ -30,7 +30,7 @@ struct emmagic_wrap_type_array : public emmagic_wrap_type_array_base<ValueType, 
         auto array = emscripten::val::array();
         array.set("length", Size);
 
-        for (auto t = 0u, T = input.size(); t < T; ++t)
+        for (auto t = 0ul, T = input.size(); t < T; ++t)
             array.set(t, emmagic_transmit<ValueType, Flags>(input.at(t)));
 
         return array;
@@ -45,7 +45,7 @@ struct emmagic_wrap_type_array<ValueType, Size, Flags, std::enable_if_t<EMMAGIC_
     {
         auto typedArray = emscripten::val::global(emmagic_typed_array_trait<ValueType>::constructor).new_(Size);
 
-        for (auto t = 0u, T = input.size(); t < T; ++t)
+        for (auto t = 0ul, T = input.size(); t < T; ++t)
             typedArray.set(t, emmagic_transmit<ValueType, Flags>(input.at(t)));
 
         return typedArray;

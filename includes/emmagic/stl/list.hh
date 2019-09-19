@@ -13,7 +13,7 @@ struct emmagic_wrap_type<std::list<ValueType>, Flags> : public emmagic_wrap_type
     {
         std::list<ValueType> list;
 
-        for (auto t = 0u, T = value["length"].as<unsigned>(); t < T; ++t)
+        for (auto t = 0ul, T = value["length"].as<unsigned long>(); t < T; ++t)
             list.push_back(emmagic_receive<ValueType, Flags>(value[t]));
 
         return list;
@@ -24,7 +24,8 @@ struct emmagic_wrap_type<std::list<ValueType>, Flags> : public emmagic_wrap_type
         auto array = emscripten::val::array();
         array.set("length", input.size());
 
-        auto it = input.begin(); for (auto t = 0u, T = input.size(); t < T; ++t)
+        auto it = input.begin();
+        for (auto t = 0ul, T = input.size(); t < T; ++t)
             array.set(t, emmagic_transmit<ValueType, Flags>(*it++));
 
         return array;

@@ -119,6 +119,19 @@ struct emmagic_wrap_type_arithmetic<LocalType, true> : public emmagic_wrap_type_
 
 };
 
+template <typename LocalType, int Flags>
+struct emmagic_wrap_type_pointer : public emmagic_wrap_type_base<LocalType, emscripten::val> {
+
+    static LocalType receive(emscripten::val const & data) {
+        return reinterpret_cast<LocalType>(data["byteOffset"].as<unsigned>());
+    }
+
+    static emscripten::val transmit(LocalType data) {
+        return emscripten::val(emscripten::typed_memory_view(100000, data));
+    }
+
+};
+
 //
 
 template <typename LocalTypeTpl, typename BridgeTypeTpl, int Flags>
@@ -153,6 +166,9 @@ struct emmagic_wrap_type<void, Flags> : public emmagic_wrap_type_base<void, void
 
 template <typename LocalType, int Flags>
 struct emmagic_wrap_type<LocalType, Flags, std::enable_if_t<std::is_arithmetic<LocalType>::value>> : public emmagic_wrap_type_arithmetic<LocalType, EMMAGIC_HAS_FLAG(Flags, EMMAGIC_COERCE_TYPES)> {};
+
+template <typename LocalType, int Flags>
+struct emmagic_wrap_type<LocalType, Flags, std::enable_if_t<std::is_pointer<LocalType>::value>> : public emmagic_wrap_type_pointer<LocalType, Flags> {};
 
 template <typename LocalType, int Flags>
 struct emmagic_wrap_type<LocalType, Flags, std::enable_if_t<emmagic_has_tojs<LocalType>::value>> : public emmagic_wrap_type_custom<LocalType, typename std::decay_t<typename std::result_of<decltype(&LocalType::toJS)(LocalType)>::type>, Flags> {};
